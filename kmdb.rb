@@ -91,7 +91,7 @@ studio1.save
 wbstudio = Studio.find_by({"studio_name" => "Warner Bros."})
 
 movie = Movie.new
-movie["title"] = "Batman Beings"
+movie["title"] = "Batman Begins"
 movie["release_year"] = 2005
 movie["mpaa_rating"] = "PG-13"
 movie["studio_id"] = wbstudio["id"]
@@ -114,6 +114,13 @@ movie.save
 actor = Actor.new
 actor["actor_name"]="Christian Bale"
 actor.save
+
+role = Role.new
+role["actor_id"] = actor["id"]
+role["movie_id"] = Movie.find_by({"title" => "Batman Begins"})["id"]
+role["character_name"] = "Bruce Wayne"
+puts "#{actor["id"]} #{actor["actor_name"]}"
+role.save
 
 actor = Actor.new
 actor["actor_name"]="Michael Caine"
@@ -173,9 +180,8 @@ puts "Top Cast"
 puts "========"
 puts ""
 
-for actor in Actor.all
-    name = actor["actor_name"]
-    puts "#{name}"
+for role in Role.all
+    puts "#{Movie.find_by({"id" =>"#{role["movie_id"]}"})["title"]} #{Actor.find_by({"id" =>"#{role["actor_id"]}"})["actor_name"]} #{role["character_name"]}"
 end
 # Query the cast data and loop through the results to display the cast output for each movie.
 # TODO!
