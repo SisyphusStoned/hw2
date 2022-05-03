@@ -251,7 +251,11 @@ puts "======"
 puts ""
 
 for movie in Movie.all
-    puts "#{movie["title"]} #{movie["release_year"]} #{movie["mpaa_rating"]} #{Studio.find_by({"id" =>"#{movie["studio_id"]}"})["studio_name"]}"
+    if movie["title"].length > 20
+        puts "#{movie["title"]}\t#{movie["release_year"]}\t#{movie["mpaa_rating"]}\t#{Studio.find_by({"id" =>"#{movie["studio_id"]}"})["studio_name"]}"
+    else
+        puts "#{movie["title"]}\t\t#{movie["release_year"]}\t#{movie["mpaa_rating"]}\t#{Studio.find_by({"id" =>"#{movie["studio_id"]}"})["studio_name"]}"
+    end
 end
 
 # Query the movies data and loop through the results to display the movies output.
@@ -263,8 +267,22 @@ puts "Top Cast"
 puts "========"
 puts ""
 
-for role in Role.all
-    puts "#{Movie.find_by({"id" =>"#{role["movie_id"]}"})["title"]} #{Actor.find_by({"id" =>"#{role["actor_id"]}"})["actor_name"]} #{role["character_name"]}"
+for role in Role.all.order("movie_id")
+    movie_title = Movie.find_by({"id" =>"#{role["movie_id"]}"})["title"]
+    actor_name = Actor.find_by({"id" =>"#{role["actor_id"]}"})["actor_name"]
+    if movie_title.length > 20
+        if actor_name.length > 15
+            puts "#{movie_title}\t#{actor_name}\t#{role["character_name"]}"
+        else 
+            puts "#{movie_title}\t#{actor_name}\t\t#{role["character_name"]}"
+        end
+    else
+        if actor_name.length > 15
+            puts "#{movie_title}\t\t#{actor_name}\t#{role["character_name"]}"
+        else 
+            puts "#{movie_title}\t\t#{actor_name}\t\t#{role["character_name"]}"
+        end
+    end
 end
 # Query the cast data and loop through the results to display the cast output for each movie.
 # TODO!
