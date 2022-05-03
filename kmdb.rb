@@ -84,11 +84,85 @@ Rails.logger.info "------------------------"
 # Insert data into the database that reflects the sample data shown above.
 # Do not use hard-coded foreign key IDs.
 # TODO!
+studio1 = Studio.new
+studio1["studio_name"] = "Warner Bros."
+studio1.save
+
+wbstudio = Studio.find_by({"studio_name" => "Warner Bros."})
+
+movie = Movie.new
+movie["title"] = "Batman Beings"
+movie["release_year"] = 2005
+movie["mpaa_rating"] = "PG-13"
+movie["studio_id"] = wbstudio["id"]
+movie.save
+
+movie = Movie.new
+movie["title"] = "The Dark Knight"
+movie["release_year"] = 2008
+movie["mpaa_rating"] = "PG-13"
+movie["studio_id"] = wbstudio["id"]
+movie.save
+
+movie = Movie.new
+movie["title"] = "The Dark Knight Rises"
+movie["release_year"] = 2012
+movie["mpaa_rating"] = "PG-13"
+movie["studio_id"] = wbstudio["id"]
+movie.save
+
+actor = Actor.new
+actor["actor_name"]="Christian Bale"
+actor.save
+
+actor = Actor.new
+actor["actor_name"]="Michael Caine"
+actor.save
+
+actor = Actor.new
+actor["actor_name"]="Liam Neeson"
+actor.save
+
+actor = Actor.new
+actor["actor_name"]="Katie Holmes"
+actor.save
+
+actor = Actor.new
+actor["actor_name"]="Gary Oldman"
+actor.save
+
+actor = Actor.new
+actor["actor_name"]="Heath Ledger"
+actor.save
+
+actor = Actor.new
+actor["actor_name"]="Aaron Eckhart"
+actor.save
+
+actor = Actor.new
+actor["actor_name"]="Maggie Gyllenhaal"
+actor.save
+
+actor = Actor.new
+actor["actor_name"]="Tom Hardy"
+actor.save
+
+actor = Actor.new
+actor["actor_name"]="Joseph Gordon-Levitt"
+actor.save
+
+actor = Actor.new
+actor["actor_name"]="Anne Hathaway"
+actor.save
 
 # Prints a header for the movies output
 puts "Movies"
 puts "======"
 puts ""
+
+for movie in Movie.all
+    puts "#{movie["title"]} #{movie["release_year"]} #{movie["mpaa_rating"]} #{Studio.find_by({"id" =>"#{movie["studio_id"]}"})["studio_name"]}"
+end
 
 # Query the movies data and loop through the results to display the movies output.
 # TODO!
@@ -99,5 +173,9 @@ puts "Top Cast"
 puts "========"
 puts ""
 
+for actor in Actor.all
+    name = actor["actor_name"]
+    puts "#{name}"
+end
 # Query the cast data and loop through the results to display the cast output for each movie.
 # TODO!
